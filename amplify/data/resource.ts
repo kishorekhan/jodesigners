@@ -1,15 +1,85 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
-=========================================================================*/
 const schema = a.schema({
+  // Preserve existing Todo model to prevent CloudFormation deletion
   Todo: a
     .model({
       content: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Custom Tailoring Order Model
+  CustomOrder: a
+    .model({
+      customerName: a.string().required(),
+      phone: a.string(),
+      category: a.string().required(),
+      outfitType: a.string().required(),
+      fabric: a.string(),
+      status: a.string().required(),
+      deliveryDate: a.string(),
+      notes: a.string(),
+      amount: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Measurement Record Model
+  Measurement: a
+    .model({
+      clientName: a.string().required(),
+      category: a.string().required(),
+      bustChest: a.string(),
+      waist: a.string(),
+      hip: a.string(),
+      shoulder: a.string(),
+      length: a.string(),
+      armHole: a.string(),
+      notes: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Fabric & Embellishment Inventory Model
+  FabricStock: a
+    .model({
+      materialName: a.string().required(),
+      colorShade: a.string(),
+      metersAvailable: a.string(),
+      type: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Client Directory Model
+  ClientProfile: a
+    .model({
+      fullName: a.string().required(),
+      phone: a.string(),
+      email: a.string(),
+      preferredStyle: a.string(),
+      address: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Category & Outfit Configuration Model for Admin Control
+  OutfitConfig: a
+    .model({
+      category: a.string().required(), // e.g. "Women", "Kids", "Teens", "Bridal"
+      outfitStyle: a.string().required(), // e.g. "Aari Work Blouse", "Pattu Pavadai"
+      description: a.string(),
+      basePrice: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Designer Portfolio Showcase Model for Website & Booking
+  ShowcaseWork: a
+    .model({
+      title: a.string().required(),
+      category: a.string().required(),
+      outfitType: a.string(),
+      description: a.string(),
+      imageKey: a.string(),
+      imageUrl: a.string().required(),
+      fabricDetails: a.string(),
+      tags: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -25,32 +95,3 @@ export const data = defineData({
     },
   },
 });
-
-/*== STEP 2 ===============================================================
-Go to your frontend source code. From your client-side code, generate a
-Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY
-WORK IN THE FRONTEND CODE FILE.)
-
-Using JavaScript or Next.js React Server Components, Middleware, Server 
-Actions or Pages Router? Review how to generate Data clients for those use
-cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
-=========================================================================*/
-
-/*
-"use client"
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
-
-const client = generateClient<Schema>() // use this Data client for CRUDL requests
-*/
-
-/*== STEP 3 ===============================================================
-Fetch records from the database and use them in your frontend component.
-(THIS SNIPPET WILL ONLY WORK IN THE FRONTEND CODE FILE.)
-=========================================================================*/
-
-/* For example, in a React component, you can use this snippet in your
-  function's RETURN statement */
-// const { data: todos } = await client.models.Todo.list()
-
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
