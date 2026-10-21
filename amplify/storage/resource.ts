@@ -5,6 +5,7 @@ export const storage = defineStorage({
   access: (allow) => ({
     "work-showcase/*": [
       allow.authenticated.to(["read", "write", "delete"]),
+      allow.groups(["admin", "customer"]).to(["read", "write", "delete"]),
       allow.guest.to(["read", "write"]),
     ],
   }),

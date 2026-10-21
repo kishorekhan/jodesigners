@@ -96,6 +96,9 @@ function StudioDashboard() {
     };
     const slug = slugMap[tabName] || "orders";
     router.push(`/?tab=${slug}`, { scroll: false });
+    if (typeof window !== "undefined" && window.innerWidth <= 900) {
+      setSidebarOpen(false);
+    }
   };
 
   // Modals state
@@ -1542,9 +1545,18 @@ function StudioDashboard() {
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#fdfafb", color: "#1c1917" }}>
+    <div className="app-layout-container" style={{ display: "flex", minHeight: "100vh", backgroundColor: "#fdfafb", color: "#1c1917" }}>
+      {/* Mobile Drawer Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside
+        className={`app-sidebar ${sidebarOpen ? "mobile-open" : ""}`}
         style={{
           width: sidebarOpen ? "275px" : "80px",
           transition: "width 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1940,6 +1952,7 @@ function StudioDashboard() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Top Header */}
         <header
+          className="admin-top-header"
           style={{
             height: "72px",
             backgroundColor: "rgba(255, 255, 255, 0.88)",
@@ -2000,6 +2013,7 @@ function StudioDashboard() {
           <div style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative" }}>
             {/* Global Search */}
             <div
+              className="admin-search-bar"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -2231,7 +2245,7 @@ function StudioDashboard() {
         </header>
 
         {/* Dynamic Page Content */}
-        <main style={{ flex: 1, padding: "32px 36px", maxWidth: "1320px", width: "100%", margin: "0 auto" }}>
+        <main className="responsive-main" style={{ flex: 1, padding: "32px 36px", maxWidth: "1320px", width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
           {/* ======================= SINGLE CONSOLIDATED VIEW: CUSTOM ORDERS (ALL, WOMEN, KIDS) ======================= */}
           {activeNav === "Custom Orders" && (
             <div>
@@ -2458,7 +2472,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>
@@ -2704,7 +2718,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>
@@ -2838,7 +2852,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>
@@ -2964,7 +2978,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>
@@ -3155,7 +3169,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>
@@ -3336,7 +3350,7 @@ function StudioDashboard() {
                   overflow: "hidden",
                 }}
               >
-                <div style={{ overflowX: "auto" }}>
+                <div className="table-responsive-wrapper" style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13.5px" }}>
                     <thead>
                       <tr style={{ backgroundColor: "#faf5f7", borderBottom: "1px solid #f2e8ed", color: "#78716c" }}>

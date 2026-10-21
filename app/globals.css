@@ -1,24 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --background: #fdfafb;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --background: #faf7f5;
   --foreground: #1c1917;
   --card: #ffffff;
   --card-foreground: #1c1917;
-  --primary: #be185d;
+  --primary: #9f1239;
+  --primary-hover: #881337;
   --primary-foreground: #ffffff;
-  --secondary: #fdf2f8;
-  --secondary-foreground: #9d174d;
-  --muted: #f5f5f4;
-  --muted-foreground: #78716c;
-  --accent: #fbcfe8;
-  --accent-foreground: #831843;
-  --gold: #d97706;
-  --gold-light: #fef3c7;
-  --border: #f2e8ed;
-  --sidebar-background: #171118;
-  --sidebar-foreground: #fdf2f8;
+  --gold: #c59b27;
+  --gold-light: #fef9c3;
+  --gold-gradient: linear-gradient(135deg, #dfb74a 0%, #c59b27 50%, #9a7318 100%);
+  --rose-gradient: linear-gradient(135deg, #be185d 0%, #9f1239 100%);
+  --atelier-dark: #140d12;
+  --atelier-card: rgba(255, 255, 255, 0.85);
+  --border: #f0e6e7;
+  --sidebar-background: #140d12;
+  --sidebar-foreground: #faf5f6;
   --sidebar-muted: #a8a29e;
-  --sidebar-hover: #261c28;
-  --sidebar-active: #831843;
+  --sidebar-hover: #231620;
+  --sidebar-active: #9f1239;
 }
 
 * {
@@ -31,7 +34,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
@@ -76,4 +79,94 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #f472b6;
   border-radius: 9999px;
+}
+
+/* Mobile & Tablet Drawer Navigation */
+@media (max-width: 900px) {
+  .app-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    width: 280px !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
+  }
+  .app-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+  .sidebar-backdrop {
+    display: block !important;
+  }
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+}
+
+@media (max-width: 768px) {
+  .responsive-header {
+    padding: 12px 16px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+  .responsive-nav {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    font-size: 13px !important;
+  }
+  .responsive-hero-title {
+    font-size: 28px !important;
+    line-height: 1.25 !important;
+  }
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .responsive-main {
+    padding: 16px 12px !important;
+  }
+  .table-responsive-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    display: block !important;
+    border-radius: 8px !important;
+  }
+  .table-responsive-wrapper table {
+    min-width: 680px !important;
+    width: 100% !important;
+  }
+  .table-responsive-wrapper th,
+  .table-responsive-wrapper td {
+    padding: 10px 12px !important;
+    font-size: 12.5px !important;
+    white-space: nowrap !important;
+  }
+  .responsive-modal {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 10px !important;
+    padding: 18px !important;
+  }
+  .admin-top-header {
+    height: auto !important;
+    padding: 12px 16px !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+  .admin-search-bar {
+    width: 100% !important;
+    order: 3 !important;
+  }
 }

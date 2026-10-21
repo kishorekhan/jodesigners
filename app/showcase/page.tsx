@@ -163,6 +163,7 @@ export default function ShowcaseWebsite() {
     <div style={{ minHeight: "100vh", backgroundColor: "#fdfafb", color: "#1c1917", fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
       {/* Header */}
       <header
+        className="responsive-header"
         style={{
           position: "sticky",
           top: 0,
@@ -202,10 +203,16 @@ export default function ShowcaseWebsite() {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <div style={{ display: "none", alignItems: "center", gap: "8px", fontSize: "13px", color: "#78716c" }}>
-            <Phone size={15} color="#be185d" /> +91 98401 23456
-          </div>
+        <div className="responsive-nav" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <Link href="/showcase" style={{ color: "#be185d", textDecoration: "none", fontSize: "14px", fontWeight: "700" }}>
+            Showcase
+          </Link>
+          <Link href="/about" style={{ color: "#78716c", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
+            About Us
+          </Link>
+          <Link href="/contact" style={{ color: "#78716c", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
+            Contact
+          </Link>
           <Link
             href="/"
             style={{
@@ -230,9 +237,9 @@ export default function ShowcaseWebsite() {
       {/* Hero Banner */}
       <section
         style={{
-          padding: "60px 24px 40px",
+          padding: "70px 24px 44px",
           textAlign: "center",
-          maxWidth: "840px",
+          maxWidth: "880px",
           margin: "0 auto",
         }}
       >
@@ -241,31 +248,36 @@ export default function ShowcaseWebsite() {
             display: "inline-flex",
             alignItems: "center",
             gap: "8px",
-            backgroundColor: "#fce7f3",
-            color: "#9d174d",
+            background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
+            color: "#92400e",
+            border: "1px solid #fcd34d",
             fontSize: "12px",
             fontWeight: "700",
-            padding: "6px 14px",
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
+            padding: "6px 16px",
             borderRadius: "20px",
-            marginBottom: "16px",
+            marginBottom: "20px",
+            boxShadow: "0 2px 8px rgba(217, 119, 6, 0.12)",
           }}
         >
-          <Sparkles size={14} /> Bespoke Women & Kids Couture Atelier
+          <Sparkles size={14} color="#d97706" /> Haute Couture Tailoring & Bridal Embroidery
         </div>
         <h1
           style={{
-            fontSize: "42px",
-            fontWeight: "800",
-            lineHeight: 1.2,
-            letterSpacing: "-0.02em",
+            fontFamily: "var(--font-serif, 'Cormorant Garamond', Georgia, serif)",
+            fontSize: "48px",
+            fontWeight: "700",
+            lineHeight: 1.15,
+            letterSpacing: "-0.01em",
             color: "#1c1917",
             marginBottom: "16px",
           }}
         >
-          Exquisite Tailored Creations & Designer Works
+          Bespoke Silhouettes & Tailored Masterpieces
         </h1>
-        <p style={{ fontSize: "16px", color: "#78716c", lineHeight: 1.6, marginBottom: "28px" }}>
-          Browse our atelier showcase of bridal lehengas, authentic aari blouses, kids couture, and twinning outfits. Select your favorite creation and book an appointment order directly.
+        <p style={{ fontSize: "16px", color: "#78716c", lineHeight: 1.7, maxWidth: "680px", margin: "0 auto 32px" }}>
+          From heirloom bridal aari blouses to handcrafted lehengas and royal kids couture, explore creations tailored to perfection.
         </p>
 
         {/* Filter Tabs */}
@@ -299,9 +311,10 @@ export default function ShowcaseWebsite() {
       {/* Showcase Grid */}
       <section style={{ maxWidth: "1280px", margin: "0 auto", padding: "20px 24px 80px" }}>
         <div
+          className="responsive-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
             gap: "28px",
           }}
         >
