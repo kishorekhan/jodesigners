@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
+import { getUrl } from "aws-amplify/storage";
 import outputs from "@/amplify_outputs.json";
 import type { Schema } from "@/amplify/data/resource";
 import {
@@ -90,6 +91,7 @@ const defaultShowcase = [
 
 export default function ShowcaseWebsite() {
   const [works, setWorks] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [bookingItem, setBookingItem] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,13 +103,27 @@ export default function ShowcaseWebsite() {
   const [custDate, setCustDate] = useState("");
   const [custNotes, setCustNotes] = useState("");
 
-  // Sync showcase works from DynamoDB (uploaded images only)
+  // Sync showcase works from DynamoDB and refresh fresh S3 pre-signed URLs
   useEffect(() => {
     let sub: any;
     if (client.models.ShowcaseWork) {
       sub = client.models.ShowcaseWork.observeQuery().subscribe({
-        next: (data) => {
-          setWorks([...data.items]);
+        next: async (data) => {
+          const refreshedItems = await Promise.all(
+            data.items.map(async (item: any) => {
+              if (item.imageKey && item.imageKey.startsWith("work-showcase/")) {
+                try {
+                  const urlRes = await getUrl({ path: item.imageKey });
+                  return { ...item, imageUrl: urlRes.url.toString() };
+                } catch {
+                  return item;
+                }
+              }
+              return item;
+            })
+          );
+          setWorks(refreshedItems);
+          setIsLoading(false);
         },
       });
     }
@@ -318,7 +334,57 @@ export default function ShowcaseWebsite() {
             gap: "28px",
           }}
         >
-        {filteredWorks.length === 0 ? (
+        {isLoading ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "90px 20px",
+              gridColumn: "1 / -1",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                width: "70px",
+                height: "70px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <div
+                className="couture-loader-ring"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+              <Scissors size={28} color="#be185d" style={{ animation: "pulseGlow 2s infinite ease-in-out" }} />
+            </div>
+            <div
+              style={{
+                fontSize: "15px",
+                fontWeight: "700",
+                color: "#831843",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                marginBottom: "6px",
+              }}
+            >
+              Weaving Atelier Creations...
+            </div>
+            <div style={{ fontSize: "13px", color: "#a8a29e" }}>
+              Fetching high-resolution bespoke designs & embroidery works
+            </div>
+          </div>
+        ) : filteredWorks.length === 0 ? (
           <div
             style={{
               textAlign: "center",

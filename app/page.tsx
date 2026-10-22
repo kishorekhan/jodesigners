@@ -404,8 +404,21 @@ function StudioDashboard() {
     let subWorks: any;
     if (client.models.ShowcaseWork) {
       subWorks = client.models.ShowcaseWork.observeQuery().subscribe({
-        next: (data) => {
-          setShowcaseWorks([...data.items]);
+        next: async (data) => {
+          const refreshedItems = await Promise.all(
+            data.items.map(async (item: any) => {
+              if (item.imageKey && item.imageKey.startsWith("work-showcase/")) {
+                try {
+                  const urlRes = await getUrl({ path: item.imageKey });
+                  return { ...item, imageUrl: urlRes.url.toString() };
+                } catch {
+                  return item;
+                }
+              }
+              return item;
+            })
+          );
+          setShowcaseWorks(refreshedItems);
         },
       });
     }
